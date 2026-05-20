@@ -1,0 +1,6 @@
+Django==5.1.2
+numpy==1.23.5
+pandas==2.2.2
+pillow==10.4.0
+scikit-learn==1.5.2
+tensorflow==2.16.1
