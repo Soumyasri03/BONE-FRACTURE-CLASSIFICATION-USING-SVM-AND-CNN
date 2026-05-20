@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/static/css/user.css">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <style>
+        body{
+            background-image: url(https://i0.wp.com/swdic.com/wp-content/uploads/2020/08/radiologist-xray.jpg?fit=380%2C254&ssl=1);
+        }
+        input {
+            justify-content: center;
+            width: fit-content;
+            margin: 0px;
+            border-radius: 10px 10px;
+            padding: 8px;
+            background-color: rgba(19, 172, 172, 0.925);
+        }
+
+        input::-webkit-file-upload-button {
+            background-color: none;
+            border-radius: 10px 10px;
+            border: none;
+        }
+
+        select {
+            background-color: aqua;
+        }
+
+        option {
+            color: black;
+        }
+
+        tr,
+        td,
+        table {
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid black;
+            border-color: black;
+            text-align: center;
+        }
+    </style>
+    <header style="background-color: rgba(191, 243, 48, 0.747);">
+        <div style="display: grid;
+        grid-template-columns: repeat(2,1fr);">
+            <div class="item">
+                <p style="padding: 10px;
+                font-weight: bold;
+                margin-top: 0px;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                    <a href="" id="custom" style="text-decoration: none;color: black;padding: 20px;">
+                        BONE FRACTURE CLASSIFICATION USING SVM AND CNN
+                    </a>
+                </p>
+            </div>
+            <div class="item2" style="display: flex;justify-content: end;height: 100%;">
+                <a href="{%url 'Index'%}">Home</a>
+                <a id="active" href="{% url 'upload' %}">Upload </a>
+                <a href="{% url 'profile' %}">Profile</a>
+                <a href="{%url 'logout' %}">Logout</a>
+            </div>
+
+        </div>
+    </header>
+    <p style="color: black; padding: 10px; font-size: 20px;font-weight: bold;">Hi {{name}} !!</p>
+    <div style="display:grid;justify-content: center;align-items: center;justify-self: center;height:fit-content;padding: 10px;
+    grid-template-rows: repeat(2,0fr);gap: 0px;row-gap: 0px;background-color: rgb(255, 255, 255);
+    margin-top: 20px;border-radius: 10px 10px;height: auto;">
+        <div style="display: flex;justify-content: center;justify-self: center; margin: 10px;">
+            {% if image%}
+            <img src="{{image}}" style="width: 350px;height: 350px;border-radius: 20px 20px;overflow: hidden;"
+                id="displayedImage" alt="/static/img/gallery.png">
+            {%else%}
+            <img src="/static/img/gallery.png"
+                style="width: 400px;height: 400px;border-radius: 20px 20px;overflow: hidden;" id="displayedImage"
+                alt="/static/img/gallery.png">
+            {%endif%}
+
+
+        </div>
+
+
+        <form action="{%url 'uploadscreen' %}" method="post" enctype="multipart/form-data">
+            {%csrf_token%}
+            <div style="display: flex;justify-content: center;">
+                <input type="file" required accept="image/*" id="file" name="file" onchange="displayImage(event)" />
+            </div>
+            <textarea id="nonetype" name="base64" style="display: none;">
+                {{image}} </textarea>
+            <br>
+            {%if prediction %}
+            <p style="width: 100%;text-align: center;color: black;">{{prediction}}</p>
+            {% endif %}
+            <div style="display: flex;justify-content: center; margin: 20px;padding: 5px;"> <button type="submit" style="width: 100%;padding: 10px 10px;background-color: aqua;border: 0px;
+            border-radius: 10px 10px;box-shadow:  10px 10px rgb(red, green, blue); inset: 10px;">Submit</button></div>
+
+        </form>
+
+    </div>
+    <script>
+        function displayImage(event) {
+            const imageIput = event.target.files[0]
+            const display = document.getElementById("displayedImage")
+
+            if (imageIput) {
+                const reader = new FileReader()
+                reader.onload = function (e) {
+                    display.src = e.target.result
+                    document.getElementById("nonetype").value = e.target.result
+                }
+
+                reader.readAsDataURL(imageIput)
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
